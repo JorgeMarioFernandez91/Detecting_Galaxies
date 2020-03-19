@@ -1,3 +1,7 @@
+'''
+Strategy pattern script for concealing algorithms
+'''
+
 from skimage.measure import compare_ssim as ssim
 import matplotlib.pyplot as plt
 import numpy as np
