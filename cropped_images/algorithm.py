@@ -56,8 +56,15 @@ class PercentDifference(Strategy):
             percentage of difference between both images
         '''
 
-        i1 = Image.open(dataA)
-        i2 = Image.open(dataB)
+        try:
+
+            i1 = Image.open(dataA)
+            i2 = Image.open(dataB)
+
+        except:
+
+            i1 = Image.open("./test_image_folder/"+dataA)
+            i2 = Image.open("./test_image_folder/"+dataB)
 
         i1 = i1.resize((1000,1000))
         i2 = i2.resize((1000,1000))

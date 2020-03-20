@@ -58,6 +58,7 @@ class TestRunAndAlgorithmScriptMethods(unittest.TestCase):
         
         self.assertEqual(difference_equal, 0)
         self.assertNotEqual(difference_not_equal, 0)
+        
 
     def test_EartMovers(self):
         emd = Context(EarthMovers())
@@ -83,20 +84,45 @@ class TestRunAndAlgorithmScriptMethods(unittest.TestCase):
         self.assertEqual(mse_equal, 0)
         self.assertNotEqual(mse_not_equal, 0)
     
-    def test_compare_images(self):
+    def test_test_system_match(self):
 
         values = [4000, 0.1, 0.004, 30]
-        results = compare_image(imageA, imageB, title=0, thresholds=values, show_image = False, system_test=True)
+        location = "./test_image_folder/"
+        #location = "./"
+        results = test_system("test01_sim_m31", "M31(2)", values, True, False, location)
 
-        total_matches = results[0]
-        total_different = results[1]
-        total_comparisons = results[2]
-        total_wrong = results[3]
+        total_matches = results[0][0]
+        total_different = results[0][1]
+        total_comparisons = results[0][2]
+        total_wrong = results[0][3]
 
         self.assertEqual(total_matches, 1)
         self.assertEqual(total_different, 0)
         self.assertEqual(total_comparisons, 1)
-        self.assertEqual(total_wrong,0)
+        self.assertEqual(total_wrong, 0)
+
+
+    def test_test_system_mismatch(self):
+        
+        values = [4000, 0.1, 0.004, 30]
+        location = "./test_image_folder/"
+        #location = "./"
+        results = test_system("test01_sim_m31", "M81", values, True, False, location)
+
+        total_matches = results[0][0]
+        total_different = results[0][1]
+        total_comparisons = results[0][2]
+        total_wrong = results[0][3]
+
+        self.assertEqual(total_matches, 1)
+        self.assertEqual(total_different, 1)
+        self.assertEqual(total_comparisons, 2)
+        self.assertEqual(total_wrong, 0)
+
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
