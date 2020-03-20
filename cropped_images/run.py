@@ -1,16 +1,11 @@
-#skimage implements SSIM
-#from skimage.measure import compare_ssim as ssim
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2 as cv
-
 import os
 import sys
 import time
-
 from scipy.stats import wasserstein_distance
 from PIL import Image
-
 from algorithm import Context, Strategy, Ssim, Mse, EarthMovers, PercentDifference
 
 
@@ -77,18 +72,9 @@ def compare_image(imageA, imageB, title, thresholds, show_image, system_test):
         s = ssim.calculate(imageA, imageB)
         emd = emd.calculate(imageA, imageB)
         difference = pd.calculate(temp1, temp2)
-
-
-        # print("Compare %s to %s: " % (temp1, temp2))
-        # print("MSE: %.2f" % (m))
-        # print("SSIM: %.2f" % (s))
-        # print("Earth Mover's Distance: %.5f" % emd)
-        # print("Difference (percentage): %.2f\n" % (difference))
  
         temp1 = temp1.lower()
         temp2 = temp2.lower()
-
-        
 
         if temp1.find("m31") > -1 and temp2.find("m31") > -1: 
             same_galaxy = True
@@ -97,7 +83,6 @@ def compare_image(imageA, imageB, title, thresholds, show_image, system_test):
         if temp1.find("m81") > -1 and temp2.find("m81") > -1:
             same_galaxy = True
 
-        # thresholds = [mse, ssim, earthmovers, percentdiff]
         # show the images if they're above a certain threshold
         if m < thresholds[0] and s >= thresholds[1] and s < 1.00 and emd < thresholds[2] and difference <= thresholds[3]:
 
@@ -119,18 +104,7 @@ def compare_image(imageA, imageB, title, thresholds, show_image, system_test):
                 plt.axis("off")
                 plt.show()
 
-
         log_results(match, same_galaxy)
-
-        # # tallying up if we got matches, differences, wrong answers, and totals of our system
-        # if match == True and same_galaxy == True:
-        #     total_match += 1
-        # elif match == False and same_galaxy == True:
-        #     total_wrong += 1
-        # else:
-        #     total_different += 1
-
-        # total_comparisons += 1
 
     else:   #if we're testing humans
         temp1 = ''
@@ -162,11 +136,7 @@ def compare_image(imageA, imageB, title, thresholds, show_image, system_test):
 
         temp1 = temp1.lower()
         temp2 = temp2.lower()
-
-        # print("comparing: " + temp1 + " and " + temp2)
-        # print("result of temp1.find(m31): " + str(temp1.find("m31")))
-        # print("result of temp2.find(m31): " + str(temp2.find("m31")))
-            
+   
         # check if input is correct
         if ans is '1':  # if user enters 'galaxies match'
 
@@ -253,7 +223,6 @@ def format_images(location, sharpen):
                                        [-1, 9,-1],
                                        [-1,-1,-1]])
                     temp = cv.filter2D(temp, -1, kernel) # applying the sharpening kernel to the input image & displaying it.
-                    #cv.imshow('Image Sharpening', sharpened)
                 sim_list.append(temp)
             else:
                 if "inv" in entry:
@@ -270,32 +239,14 @@ def test_system(sim_name, galaxy_name, thresholds, sharpen, show_image, location
     
     format_images(location, sharpen) # path to images
     num = 0
-
     results_array = []
-
     for key1 in img_dict:
-        
-        if(key1.find("sim") is not -1 and key1.find(sim_name) is not -1): # if the image we retrieved is a simulated image then we want to compare it with real images
-            
+        if(key1.find("sim") is not -1 and key1.find(sim_name) is not -1): # if the image we retrieved is a simulated image then we want to compare it with real images  
             img1 = img_dict[key1]
             for key2 in img_dict:
-                
-                # print(key1)
-                # print(key2)
-                # print(key2.lower())
-                #if(key2.find("sim") is -1 and key2.lower().find(galaxy_name) is not -1): # if the image we retrieved is a real galaxy image then we do want to compare it with simulated images
-                #if(key2.find("M31(2)-IR-2MASS-R6(NED)_inv.png") is not -1):
-                if (key2.lower().find(galaxy_name.lower()) is not -1):
-                    # print(4)
-                    
+                if (key2.lower().find(galaxy_name.lower()) is not -1):           
                     img2 = img_dict[key2]
-                    #print(key1 + " " + key2)
-                    #print(show_image)
-                    #print(key2)
                     results_array.append( compare_image(img1, img2, num, thresholds, show_image, system_test=True) )
-                    
-                    #print(results)
-
                     num += 1
     return results_array
 
@@ -309,8 +260,6 @@ def test_human(sim_name, thresholds, sharpen, show_image):
             for key2 in img_dict:
                 if(key2.find("sim") is -1): # if the image we retrieved is a real galaxy image then we do want to compare it with simulated images
                     img2 = img_dict[key2]
-                    #print(key1 + " " + key2)
-                    #print(show_image)
                     compare_image(img1, img2, num, thresholds, show_image, system_test=False)
                     num += 1
 
@@ -323,7 +272,6 @@ def main():
     global total_different;
     global total_comparisons;
     global total_wrong;
-
 
     if sys.argv[1] == 'human-test': # test human 
 
@@ -342,7 +290,6 @@ def main():
         print("Total Comparisons: " + str(total_comparisons))  
 
     elif sys.argv[1] == 'system-test': # test system
-
         
         # mse ssim earthmovers percent difference
         values = [4000, 0.1, 0.004, 30]
@@ -350,7 +297,6 @@ def main():
         globals()['img_dict'] = {}
         globals()['compared_img_list'] = []
         test_system(sim_name="m31_realism", galaxy_name="m31", thresholds=values, sharpen=True, show_image=False, location='./')
-        #test_system(sim_name="m31", galaxy_name="m31", thresholds=values, sharpen=True, show_image=False, location='.')  
 
         print("=====================================================")
         print("Comparing simM31 to realM31")
@@ -370,7 +316,6 @@ def main():
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
         globals()['compared_img_list'] = []
-        #test_system(sim_name="m33", galaxy_name="m33", thresholds=values, sharpen=True, show_image=False) 
         test_system(sim_name="m33_realism", galaxy_name="m33", thresholds=values, sharpen=True, show_image=False, location='./')
 
         print("=====================================================")
@@ -383,7 +328,6 @@ def main():
         print("Accuracy: " + str( format((total_match + total_different)/total_comparisons, '.2f') ))  
         print("=====================================================")  
 
-
         total_match = 0;
         total_different = 0;
         total_comparisons = 0;
@@ -392,7 +336,6 @@ def main():
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
         globals()['compared_img_list'] = []
-        #test_system(sim_name="m81", galaxy_name="m81" , thresholds=values, sharpen=True, show_image=False) 
         test_system(sim_name="m81_realism", galaxy_name="m81" , thresholds=values, sharpen=True, show_image=False, location='./') 
 
         print("=====================================================")
@@ -413,7 +356,6 @@ def main():
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
         globals()['compared_img_list'] = []
-        #test_system(sim_name="m31", galaxy_name="m81" , thresholds=values, sharpen=True, show_image=False)
         test_system(sim_name="m31_realism", galaxy_name="m81" , thresholds=values, sharpen=True, show_image=False, location='./')  
 
         print("=====================================================")
@@ -434,9 +376,7 @@ def main():
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
         globals()['compared_img_list'] = []
-        #test_system(sim_name="m33", galaxy_name="m31" ,threshold=0.2, sharpen=True, show_image=False) 
         test_system(sim_name="m33_realism", galaxy_name="m31" , thresholds=values, sharpen=True, show_image=False, location='./') 
-
 
         print("=====================================================")
         print("Comparing simM33 to realM31")
@@ -456,9 +396,7 @@ def main():
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
         globals()['compared_img_list'] = []
-        #test_system(sim_name="m81", galaxy_name="m33" , thresholds=values, sharpen=True, show_image=False)
         test_system(sim_name="m81_realism", galaxy_name="m33" , thresholds=values, sharpen=True, show_image=False, location='./') 
-    
 
         print("=====================================================")
         print("Comparing simM81 to realM33")

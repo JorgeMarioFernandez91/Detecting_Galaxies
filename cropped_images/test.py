@@ -1,5 +1,4 @@
 import unittest
-
 from skimage.measure import compare_ssim as ssim
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,23 +8,14 @@ import os
 import types
 from scipy.stats import wasserstein_distance
 from PIL import Image
-
 from abc import ABCMeta, abstractmethod
 from algorithm import *
 from run import *
 
 entries = os.listdir('.')
 
-#print(entries)
-
 image1 = entries[7]
 image2 = entries[21]
-
-# sim31 = entries[7]
-# real31 = entries[21]
-
-# print(sim31)
-# print(real31)
 
 # load the images
 image1 = cv.imread(image1)
@@ -58,7 +48,6 @@ class TestRunAndAlgorithmScriptMethods(unittest.TestCase):
         
         self.assertEqual(difference_equal, 0)
         self.assertNotEqual(difference_not_equal, 0)
-        
 
     def test_EartMovers(self):
         emd = Context(EarthMovers())
@@ -101,7 +90,6 @@ class TestRunAndAlgorithmScriptMethods(unittest.TestCase):
         self.assertEqual(total_comparisons, 1)
         self.assertEqual(total_wrong, 0)
 
-
     def test_test_system_mismatch(self):
         
         values = [4000, 0.1, 0.004, 30]
@@ -118,11 +106,6 @@ class TestRunAndAlgorithmScriptMethods(unittest.TestCase):
         self.assertEqual(total_different, 1)
         self.assertEqual(total_comparisons, 2)
         self.assertEqual(total_wrong, 0)
-
-
-
-
-
 
 if __name__ == '__main__':
     unittest.main()
