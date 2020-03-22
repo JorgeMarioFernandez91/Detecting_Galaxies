@@ -31,10 +31,10 @@ def compare_image(imageA, imageB, title, thresholds, show_image, system_test):
     '''
 
     # reference global variables
-    global total_match;
-    global total_different;
-    global total_comparisons;
-    global total_wrong;
+    global total_match
+    global total_different
+    global total_comparisons
+    global total_wrong
     # flags to test if answers are correct/incorrect
     match = False
     same_galaxy = False
@@ -178,10 +178,10 @@ def compare_image(imageA, imageB, title, thresholds, show_image, system_test):
 
 def log_results(match, same_galaxy):
 
-    global total_match;
-    global total_different;
-    global total_comparisons;
-    global total_wrong;
+    global total_match
+    global total_different
+    global total_comparisons
+    global total_wrong
 
     # tallying up if we got matches, differences, wrong answers, and totals of our system
     if match == True and same_galaxy == True:
@@ -268,10 +268,10 @@ def main():
     @yields
         a comparison between all images after they've been formatted to be in greyscale and the same size
     '''
-    global total_match;
-    global total_different;
-    global total_comparisons;
-    global total_wrong;
+    global total_match
+    global total_different
+    global total_comparisons
+    global total_wrong
 
     if sys.argv[1] == 'human-test': # test human 
 
@@ -308,10 +308,10 @@ def main():
         print("Accuracy: " + str( format((total_match + total_different)/total_comparisons, '.2f') ))  
         print("=====================================================")
 
-        total_match = 0;
-        total_different = 0;
-        total_comparisons = 0;
-        total_wrong = 0;
+        total_match = 0
+        total_different = 0
+        total_comparisons = 0
+        total_wrong = 0
 
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
@@ -328,10 +328,10 @@ def main():
         print("Accuracy: " + str( format((total_match + total_different)/total_comparisons, '.2f') ))  
         print("=====================================================")  
 
-        total_match = 0;
-        total_different = 0;
-        total_comparisons = 0;
-        total_wrong = 0;
+        total_match = 0
+        total_different = 0
+        total_comparisons = 0
+        total_wrong = 0
 
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
@@ -348,10 +348,10 @@ def main():
         print("Accuracy: " + str( format((total_match + total_different)/total_comparisons, '.2f') ))  
         print("=====================================================") 
 
-        total_match = 0;
-        total_different = 0;
-        total_comparisons = 0;
-        total_wrong = 0;
+        total_match = 0
+        total_different = 0
+        total_comparisons = 0
+        total_wrong = 0
 
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
@@ -368,10 +368,10 @@ def main():
         print("Accuracy: " + str( format((total_match + total_different)/total_comparisons, '.2f') ))  
         print("=====================================================")
 
-        total_match = 0;
-        total_different = 0;
-        total_comparisons = 0;
-        total_wrong = 0;
+        total_match = 0
+        total_different = 0
+        total_comparisons = 0
+        total_wrong = 0
 
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
@@ -388,10 +388,10 @@ def main():
         print("Accuracy: " + str( format((total_match + total_different)/total_comparisons, '.2f') ))   
         print("=====================================================")
 
-        total_match = 0;
-        total_different = 0;
-        total_comparisons = 0;
-        total_wrong = 0;
+        total_match = 0
+        total_different = 0
+        total_comparisons = 0
+        total_wrong = 0
 
         values = [4000, 0.1, 0.004, 30]
         globals()['img_dict'] = {}
